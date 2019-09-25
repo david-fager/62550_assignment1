@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -17,10 +19,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button settingsButton = null;
     private Button guidanceButton = null;
 
+    private EditText urlField = null;
+    private Button okButton = null;
+    private WebView webView = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Name input part
         nameText = findViewById(R.id.nameText);
         nameField = findViewById(R.id.nameField);
         nameButton = findViewById(R.id.nameButton);
@@ -28,11 +36,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         nameField.setOnClickListener(this);
         nameButton.setOnClickListener(this);
 
+        // Activity buttons part
         statusText = findViewById(R.id.textStatus);
         settingsButton = findViewById(R.id.buttonSettings);
         guidanceButton = findViewById(R.id.buttonGuidance);
         settingsButton.setOnClickListener(this);
         guidanceButton.setOnClickListener(this);
+
+        // Webbrowser part
+        urlField = findViewById(R.id.urlField);
+        okButton = findViewById(R.id.urlOKButton);
+
+        webView = findViewById(R.id.webview);
+        webView.setWebViewClient(new WebViewClient());
+
+        okButton.setOnClickListener(this);
 
     }
 
@@ -65,6 +83,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else if (v == settingsButton) {
             System.out.println("[INFO] User pressed button: " + settingsButton.getResources().getResourceName(settingsButton.getId()));
             statusText.setText("Status: user pressed 'settings' button");
+        } else if (v == okButton) {
+            System.out.println("[INFO] User pressed button: " + okButton.getResources().getResourceName(okButton.getId()));
+            statusText.setText("Status: user pressed 'OK' button");
+            webView.loadUrl(urlField.getText().toString());
         }
 
     }
